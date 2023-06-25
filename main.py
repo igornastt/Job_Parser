@@ -210,27 +210,26 @@ class Page2:
         """
         Функция для удаления вакансий
         """
-        if self.vacancies:
-            vacancy_id = input("Введите идентификатор вакансии для удаления: ").strip()
-            try:
-                if vacancy_id.isdigit():
-                    deleted_vacancies = []
-                    filtered_vacancies = filter(lambda vacancy: int(vacancy.id) == int(vacancy_id), self.vacancies)
-                    for vacancy in filtered_vacancies:
-                        deleted_vacancies.append(vacancy)
-                        self.path.remove_vacancy(vacancy_id=vacancy_id)
-                        print(f"Вакансия успешно удалена из загруженных")
-
-                    if len(deleted_vacancies) > 0:
-                        self.vacancies = [v for v in self.vacancies if v not in deleted_vacancies]
-                    else:
-                        raise ValueError("Вакансия не найдена. Введите корректный идентификатор вакансии.")
-                else:
-                    raise ValueError("Идентификатор вакансии должен состоять только из цифр.")
-            except ValueError as error:
-                print(str(error))
-        else:
+        if not self.vacancies:
             raise IndexError
+        vacancy_id = input("Введите идентификатор вакансии для удаления: ").strip()
+        try:
+            if vacancy_id.isdigit():
+                deleted_vacancies = []
+                filtered_vacancies = filter(lambda vacancy: int(vacancy.id) == int(vacancy_id), self.vacancies)
+                for vacancy in filtered_vacancies:
+                    deleted_vacancies.append(vacancy)
+                    self.path.remove_vacancy(vacancy_id=vacancy_id)
+                    print(f"Вакансия успешно удалена из загруженных")
+
+                if len(deleted_vacancies) > 0:
+                    self.vacancies = [v for v in self.vacancies if v not in deleted_vacancies]
+                else:
+                    raise ValueError("Вакансия не найдена. Введите корректный идентификатор вакансии.")
+            else:
+                raise ValueError("Идентификатор вакансии должен состоять только из цифр.")
+        except ValueError as error:
+            print(str(error))
 
 
 if __name__ == "__main__":
